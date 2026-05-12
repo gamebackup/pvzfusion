@@ -115,6 +115,33 @@
     </div>
 
     <!-- Unity loader – only here, after the canvas and overlay -->
+    <script>
+    // Mock Yandex Games SDK (if needed)
+    window.YaGames = {
+        init: function() {
+            return Promise.resolve({
+                getPlayer: function() { return Promise.resolve({ getName: () => 'Player' }); },
+                getEnvironment: () => ({ app: { id: '456912' } }),
+                features: { LoadingAPI: { ready: () => {} } },
+                screen: { fullscreen: { request: () => {} } }
+            });
+        }
+    };
+
+    // Mock Playgama Bridge (commonly used in Unity exports)
+    window.PlaygamaBridge = {
+        isAvailable: true,
+        gameReady: function() { console.log('Mock: gameReady called'); },
+        loadingProgress: function(progress) { console.log('Mock: loading progress', progress); },
+        on: function(event, callback) {
+            if (event === 'game_ready') callback();
+        },
+        send: function(event, data) {}
+    };
+
+    // Sometimes it's also referenced as 'playgamaBridge' (lowercase)
+    window.playgamaBridge = window.PlaygamaBridge;
+</script>
     <script src="index.756381f9bf474c3d5a3d.js.js"></script>
 </body>
 </html>
