@@ -115,33 +115,55 @@
     </div>
 
     <!-- Unity loader – only here, after the canvas and overlay -->
-    <script>
-    // Mock Yandex Games SDK (if needed)
-    window.YaGames = {
-        init: function() {
-            return Promise.resolve({
-                getPlayer: function() { return Promise.resolve({ getName: () => 'Player' }); },
-                getEnvironment: () => ({ app: { id: '456912' } }),
-                features: { LoadingAPI: { ready: () => {} } },
-                screen: { fullscreen: { request: () => {} } }
-            });
+    <!-- Custom Unity loader – bypasses Yandex SDK completely -->
+<script>
+    // Wait for the DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+        const canvas = document.getElementById('canvas');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        // Unity build configuration
+        const config = {
+            dataUrl: "BuildPvzFusiom.data.unityweb",
+            frameworkUrl: "Plants%20Vs%20Zombies_files/BuildPvzFusiom.framework.js.unityweb",
+            codeUrl: "Plants%20Vs%20Zombies_files/BuildPvzFusiom.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DefaultCompany",
+            productName: "PlantsVsZombies",
+            productVersion: "1.0",
+            matchWebGLToCanvasSize: true,
+            devicePixelRatio: 1
+        };
+
+        // Progress callback – hides the loading screen when ready
+        function onProgress(progress) {
+            console.log('Loading progress: ' + (progress * 100).toFixed(2) + '%');
+            if (progress >= 1.0) {
+                // Game is fully loaded
+                loadingOverlay.style.display = 'none';
+            }
         }
-    };
 
-    // Mock Playgama Bridge (commonly used in Unity exports)
-    window.PlaygamaBridge = {
-        isAvailable: true,
-        gameReady: function() { console.log('Mock: gameReady called'); },
-        loadingProgress: function(progress) { console.log('Mock: loading progress', progress); },
-        on: function(event, callback) {
-            if (event === 'game_ready') callback();
-        },
-        send: function(event, data) {}
-    };
-
-    // Sometimes it's also referenced as 'playgamaBridge' (lowercase)
-    window.playgamaBridge = window.PlaygamaBridge;
+        // Load the Unity framework JS dynamically, then start the game
+        const script = document.createElement('script');
+        script.src = config.frameworkUrl;
+        script.onload = function() {
+            // The framework defines createUnityInstance globally
+            createUnityInstance(canvas, config, onProgress)
+                .then(function(unityInstance) {
+                    console.log('Unity instance created successfully!');
+                })
+                .catch(function(error) {
+                    console.error('Unity failed to start:', error);
+                    loadingOverlay.innerHTML = '<div style="color:white;text-align:center;">Failed to start the game. Check console for errors.</div>';
+                });
+        };
+        script.onerror = function() {
+            console.error('Failed to load Unity framework JS.');
+            loadingOverlay.innerHTML = '<div style="color:white;text-align:center;">Error loading game files.</div>';
+        };
+        document.body.appendChild(script);
+    });
 </script>
-    <script src="index.756381f9bf474c3d5a3d.js.js"></script>
 </body>
 </html>
