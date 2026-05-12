@@ -77,93 +77,33 @@
 </head>
 <body>
     <canvas id="canvas" class="fullscreen-canvas"></canvas>
+    <div id="loading-overlay" class="fullscreen">...</div>
 
-    <div id="loading-overlay" class="fullscreen">
-        <svg id="logo" viewBox="0 0 633 819" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Your full SVG here (exactly as you have it) -->
-            <defs>
-                <mask id="logo-mask">
-                    <rect x="0" y="0" width="100%" height="100%" fill="black"></rect>
-                    <path d="M632 1V632H1V1H632ZM350 125.586V507.414L380.586 538H546V451H478.599L478.308 451.278L454.598 474H443.406L450.944 452.328L451 452.169V187.459L457.369 182H546V95H380.586L350 125.586ZM283 125.586L252.414 95H87V182H175.631L182 187.459V445.54L175.631 451H87V538H252.414L283 507.414V125.586Z" fill="white"></path>
-                    <path d="M633 687V660H548V687H560V791H548V819H633V792H601L592 801H587L590 792V752H627V725H590V687H633Z" fill="white"></path>
-                    <path d="M533 718V675L518 660H450L435 675V802L450 819H518L533 804V734H482V761H503V788L499 792H476L467 801H462L465 792V691L469 687H499L503 691V718H533Z" fill="white"></path>
-                    <path d="M402 660H310V687H322V792H310V819H402L417 804V675L402 660ZM387 788L383 792H363L354 801H349L352 792V687H383L387 691V788Z" fill="white"></path>
-                    <path d="M295 687V660H239V687H251V792H239V819H295V792H283V687H295Z" fill="white"></path>
-                    <path d="M215 791L200 760H209L224 745V675L209 660H121V687H132V792H121V819H162V760H166L193 819H227V791H215ZM194 729L190 733H173L164 742H159L162 733V687H190L194 691V729Z" fill="white"></path>
-                    <path d="M106 724V675L91 660H0V687H12V792H0V819H91L106 804V749L89 744V728L106 724ZM73 788L69 792H53L44 801H39L42 792V752H73V788ZM73 725H53L44 734H39L42 725V687H69L73 691V725Z" fill="white"></path>
-                </mask>
-                <linearGradient id="shineGradient" x1="1233" y1="0" x2="1866" y2="633" gradientUnits="userSpaceOnUse">
-                    <stop offset="0.235577" stop-color="#aa76ff"></stop>
-                    <stop offset="0.240685" stop-color="white"></stop>
-                    <stop offset="0.659749" stop-color="#aa76ff"></stop>
-                </linearGradient>
-            </defs>
-            <g mask="url(#logo-mask)">
-                <rect id="gradientMover" x="0" y="0" width="2532" height="819" fill="url(#shineGradient)" style="transform: translateX(0px);"></rect>
-            </g>
-            <g mask="url(#logo-mask)">
-                <rect id="fillRect" class="fill-rect" x="0" y="0" width="100%" height="819" fill="#aa76ff"></rect>
-            </g>
-            <path d="M632 1V632H1V1H632ZM350 125.586V507.414L380.586 538H546V451H478.599L478.308 451.278L454.598 474H443.406L450.944 452.328L451 452.169V187.459L457.369 182H546V95H380.586L350 125.586ZM283 125.586L252.414 95H87V182H175.631L182 187.459V445.54L175.631 451H87V538H252.414L283 507.414V125.586Z" stroke="#aa76ff" stroke-width="3"></path>
-            <path d="M633 687V660H548V687H560V791H548V819H633V792H601L592 801H587L590 792V752H627V725H590V687H633Z" stroke="#aa76ff" stroke-width="3"></path>
-            <path d="M533 718V675L518 660H450L435 675V802L450 819H518L533 804V734H482V761H503V788L499 792H476L467 801H462L465 792V691L469 687H499L503 691V718H533Z" stroke="#aa76ff" stroke-width="3"></path>
-            <path d="M402 660H310V687H322V792H310V819H402L417 804V675L402 660ZM387 788L383 792H363L354 801H349L352 792V687H383L387 691V788Z" stroke="#aa76ff" stroke-width="3"></path>
-            <path d="M295 687V660H239V687H251V792H239V819H295V792H283V687H295Z" stroke="#aa76ff" stroke-width="3"></path>
-            <path d="M215 791L200 760H209L224 745V675L209 660H121V687H132V792H121V819H162V760H166L193 819H227V791H215ZM194 729L190 733H173L164 742H159L162 733V687H190L194 691V729Z" stroke="#aa76ff" stroke-width="3"></path>
-            <path d="M106 724V675L91 660H0V687H12V792H0V819H91L106 804V749L89 744V728L106 724ZM73 788L69 792H53L44 801H39L42 792V752H73V788ZM73 725H53L44 734H39L42 725V687H69L73 691V725Z" stroke="#aa76ff" stroke-width="3"></path>
-        </svg>
-    </div>
-
-    <!-- Unity loader – only here, after the canvas and overlay -->
-    <!-- Custom Unity loader – bypasses Yandex SDK completely -->
-<script>
-    // Wait for the DOM to be ready
-    document.addEventListener('DOMContentLoaded', function() {
-        const canvas = document.getElementById('canvas');
-        const loadingOverlay = document.getElementById('loading-overlay');
-
-        // Unity build configuration
-        const config = {
-            dataUrl: "BuildPvzFusiom.data.unityweb",
-            frameworkUrl: "Plants%20Vs%20Zombies_files/BuildPvzFusiom.framework.js",
-            codeUrl: "Plants%20Vs%20Zombies_files/BuildPvzFusiom.wasm.unityweb",
-            streamingAssetsUrl: "StreamingAssets",
-            companyName: "DefaultCompany",
-            productName: "PlantsVsZombies",
-            productVersion: "1.0",
-            matchWebGLToCanvasSize: true,
-            devicePixelRatio: 1
-        };
-
-        // Progress callback – hides the loading screen when ready
-        function onProgress(progress) {
-            console.log('Loading progress: ' + (progress * 100).toFixed(2) + '%');
-            if (progress >= 1.0) {
-                // Game is fully loaded
-                loadingOverlay.style.display = 'none';
-            }
-        }
-
-        // Load the Unity framework JS dynamically, then start the game
-        const script = document.createElement('script');
-        script.src = config.frameworkUrl;
-        script.onload = function() {
-            // The framework defines createUnityInstance globally
-            createUnityInstance(canvas, config, onProgress)
-                .then(function(unityInstance) {
-                    console.log('Unity instance created successfully!');
-                })
-                .catch(function(error) {
-                    console.error('Unity failed to start:', error);
-                    loadingOverlay.innerHTML = '<div style="color:white;text-align:center;">Failed to start the game. Check console for errors.</div>';
+    <!-- Mock Yandex SDK & Playgama Bridge -->
+    <script>
+        window.YaGames = {
+            init: function() {
+                return Promise.resolve({
+                    getPlayer: function() { return Promise.resolve({ getName: () => 'Player' }); },
+                    getEnvironment: () => ({ app: { id: '456912' } }),
+                    features: { LoadingAPI: { ready: () => {} } },
+                    screen: { fullscreen: { request: () => {} } }
                 });
+            }
         };
-        script.onerror = function() {
-            console.error('Failed to load Unity framework JS.');
-            loadingOverlay.innerHTML = '<div style="color:white;text-align:center;">Error loading game files.</div>';
+        window.PlaygamaBridge = {
+            isAvailable: true,
+            gameReady: function() { console.log('Mock: gameReady called'); },
+            loadingProgress: function(progress) { console.log('Mock: loading progress', progress); },
+            on: function(event, callback) {
+                if (event === 'game_ready') callback();
+            },
+            send: function(event, data) {}
         };
-        document.body.appendChild(script);
-    });
-</script>
+        window.playgamaBridge = window.PlaygamaBridge;
+    </script>
+
+    <!-- Original Yandex/Unity loader – it knows how to start the game -->
+    <script src="index.756381f9bf474c3d5a3d.js.js"></script>
 </body>
 </html>
